@@ -28,6 +28,7 @@ const createClient = (request, response) => {
     Password,
     Ville,
     Adresse,
+    DateNaissance
   } = request.body;
   pool.query(que.checkEmailexistance, [Email], (error, results) => {
     if (results.rows.length) {
@@ -48,6 +49,7 @@ const createClient = (request, response) => {
               Password,
               Ville,
               Adresse,
+              DateNaissance
             ],
             (error, results) => {
               if (error) {
@@ -112,9 +114,63 @@ const checkEmailEx = async (request, response) =>{
     }
 }
 
+const updateClient = (request, response) => {
+  const id = parseInt(request.params.id);
+  const {
+    NomComplet,
+    UserName,
+    Genre,
+    Email,
+    Telephone,
+    Password,
+    Ville,
+    Adresse,
+    DateNaissance
+  } = request.body;
+  pool.query(que.getclientbyid, [id], (error, results) => {
+    const noclientfound = !results.rows.length;
+    if (noclientfound) {
+      response.json({ message: "No client found in database" });
+    }
+  });
+  pool.query(
+    que.updateclient,
+    [
+      NomComplet,
+      UserName,
+      Genre,
+      Email,
+      Telephone,
+      Password,
+      Ville,
+      Adresse,
+      DateNaissance,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json({ message: "Client updated succefully" });
+    }
+  );
+};
+
+const getClientById = (request, response) => {
+  const id = parseInt(request.params.id);
+  pool.query(que.getclientbyid, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+
 module.exports = {
   getClients,
   createClient,
   checkEmailEx,
-  LoginAuth 
+  LoginAuth,
+  updateClient,
+  getClientById 
 };
