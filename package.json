@@ -2,25 +2,28 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhia-Dhaouadi/VP-server.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dhia-Dhaouadi/VP-server/issues"
+  },
+  "homepage": "https://github.com/Dhia-Dhaouadi/VP-server#readme",
   "dependencies": {
     "axios": "^1.3.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7",
-    "pg": "^8.9.0",
-    "route": "^0.2.5",
-    "Router": "^2.1.0"
-  },
-  "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.1"
+    "nodemon": "^2.0.22",
+    "pg": "^8.10.0"
   }
 }
