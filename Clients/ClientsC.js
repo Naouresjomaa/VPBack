@@ -1,14 +1,13 @@
 const express = require("express");
-const axios = require('axios');
+const axios = require("axios");
 const pool = require("../connection");
 const que = require("./ClientsQ");
 const app = express();
 const jwt = require("jsonwebtoken");
-const accessKey = 'Sz8ziUg6q4conqG92VK3HPWvDxTwEfH3';
-const secretKey = 'VentePriveeSecretKeyNeverHacked12'
+const accessKey = "Sz8ziUg6q4conqG92VK3HPWvDxTwEfH3";
+const secretKey = "VentePriveeSecretKeyNeverHacked12";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 const getClients = (request, response) => {
   pool.query(que.getClients, (error, results) => {
     if (error) {
@@ -17,7 +16,6 @@ const getClients = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
-
 const createClient = (request, response) => {
   const {
     NomComplet,
@@ -28,7 +26,7 @@ const createClient = (request, response) => {
     Password,
     Ville,
     Adresse,
-    DateNaissance
+    DateNaissance,
   } = request.body;
   pool.query(que.checkEmailexistance, [Email], (error, results) => {
     if (results.rows.length) {
@@ -49,7 +47,7 @@ const createClient = (request, response) => {
               Password,
               Ville,
               Adresse,
-              DateNaissance
+              DateNaissance,
             ],
             (error, results) => {
               if (error) {
@@ -66,54 +64,51 @@ const createClient = (request, response) => {
     }
   });
 };
-
 const LoginAuth = (request, response) => {
-    const { Email, Password } = request.body;
-    pool.query(que.checkEmail , [Email], (error, results) => {
-      const user = results.rows;
-      if (user.length == 0) {
-        response.json({ message: "Vérifier Email !" });
+  const { Email, Password } = request.body;
+  pool.query(que.checkEmail, [Email], (error, results) => {
+    const user = results.rows;
+    if (user.length == 0) {
+      response.json({ message: "Vérifier Email !" });
+    } else {
+      if (Password == user[0].Password) {
+        jwt.sign(user[0], secretKey, (error, results) => {
+          if (error) {
+            response.json({ error: error });
+          } else {
+            response
+              .status(200)
+              .json({ Token: results, user, message: "Vous êtes connecté" });
+          }
+        });
       } else {
-        if (
-          Password == user[0].Password
-        ) {
-          jwt.sign(user[0], secretKey, (error, results) => {
-            if (error) {
-              response.json({ error: error });
-            } else {
-              response
-                .status(200)
-                .json({ Token: results, user, message: "Vous êtes connecté" });
-            }
-          });
-        } else {
-          response.json({
-            message: "Vérifier Mot de Passe !",
-          });
-        }
+        response.json({
+          message: "Vérifier Mot de Passe !",
+        });
       }
-    });
-  };
-
-const checkEmailEx = async (request, response) =>{
-    const Email = request.body;
-    // Send a request to the Mailboxlayer email validation API
-    try {
-      const response = await axios.get(`https://apilayer.net/api/check?access_key=${accessKey}&email=${Email}`);
-      const data = response.data;
-  
-      // Check if the email exists
-      if (data.format_valid && data.mx_found && data.smtp_check) {
-        res.send({ exists: true });
-      } else {
-        res.send({ exists: false });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error verifying email address');
     }
-}
+  });
+};
+const checkEmailEx = async (request, response) => {
+  const Email = request.body;
+  // Send a request to the Mailboxlayer email validation API
+  try {
+    const response = await axios.get(
+      `https://apilayer.net/api/check?access_key=${accessKey}&email=${Email}`
+    );
+    const data = response.data;
 
+    // Check if the email exists
+    if (data.format_valid && data.mx_found && data.smtp_check) {
+      res.send({ exists: true });
+    } else {
+      res.send({ exists: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error verifying email address");
+  }
+};
 const updateClient = (request, response) => {
   const id = parseInt(request.params.id);
   const {
@@ -125,7 +120,7 @@ const updateClient = (request, response) => {
     Password,
     Ville,
     Adresse,
-    DateNaissance
+    DateNaissance,
   } = request.body;
   pool.query(que.getclientbyid, [id], (error, results) => {
     const noclientfound = !results.rows.length;
@@ -155,7 +150,6 @@ const updateClient = (request, response) => {
     }
   );
 };
-
 const getClientById = (request, response) => {
   const id = parseInt(request.params.id);
   pool.query(que.getclientbyid, [id], (error, results) => {
@@ -165,12 +159,11 @@ const getClientById = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
-
 module.exports = {
   getClients,
   createClient,
   checkEmailEx,
   LoginAuth,
   updateClient,
-  getClientById 
+  getClientById,
 };
