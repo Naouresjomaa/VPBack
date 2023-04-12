@@ -48,21 +48,36 @@ const updateParameter = (request, response) => {
       }
       response.status(201).json({ message: "Parametre updated succefully" });
     }
-  ); 
+  );
 };
 const RemoveParameter = (request, response) => {
-    const id = parseInt(request.params.id);
-      pool.query(que.removeparametre, [id], (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(200).json("Parameter deleted");
-      });
-  };
+  const id = parseInt(request.params.id);
+  pool.query(que.removeparametre, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json("Parameter deleted");
+  });
+};
+const getParametyresbyCatSc = (request, response) => {
+  const Categorie = request.params.Categorie;
+  const SousCategorie = request.params.SousCategorie;
+  pool.query(
+    que.getParameterbyCatSC,
+    [Categorie, SousCategorie],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
 module.exports = {
   GetParametre,
   CreateParametre,
   getParameterById,
   updateParameter,
-  RemoveParameter
+  RemoveParameter,
+  getParametyresbyCatSc
 };

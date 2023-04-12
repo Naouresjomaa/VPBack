@@ -13,7 +13,27 @@ const getProduits = (request, response) => {
   });
 };
 const createProduit = (request, response) => {
-    const {
+  const {
+    Categorie,
+    SousCategorie,
+    Brand,
+    Produit,
+    QteDsStock,
+    Prix,
+    PrixR,
+    Reduction,
+    Couleur,
+    Taille,
+    Genre,
+    GroupAge,
+    Images,
+    DetailsP,
+    PrixLivraision,
+    livraisonestime,
+  } = request.body;
+  pool.query(
+    que.AddProduit,
+    [
       Categorie,
       SousCategorie,
       Brand,
@@ -29,37 +49,87 @@ const createProduit = (request, response) => {
       Images,
       DetailsP,
       PrixLivraision,
-      livraisonestime
-    } = request.body;
-    pool.query(
-      que.AddProduit,
-      [
-        Categorie,
-        SousCategorie,
-        Brand,
-        Produit,
-        QteDsStock,
-        Prix,
-        PrixR,
-        Reduction,
-        Couleur,
-        Taille,
-        Genre,
-        GroupAge,
-        Images,
-        DetailsP,
-        PrixLivraision,
-        livraisonestime
-      ],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(201).json({ message: "Product created succefully" });
+      livraisonestime,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
       }
-    );
-  };
+      response.status(201).json({ message: "Product created succefully" });
+    }
+  );
+};
+const updateProduit = (request, response) => {
+  const id = parseInt(request.params.id);
+  const {
+    Categorie,
+    SousCategorie,
+    Brand,
+    Produit,
+    QteDsStock,
+    Prix,
+    PrixR,
+    Reduction,
+    Couleur,
+    Taille,
+    Genre,
+    GroupAge,
+    Images,
+    DetailsP,
+    PrixLivraision,
+    livraisonestime,
+  } = request.body;
+  pool.query(
+    que.updateproduit,
+    [
+      Categorie,
+      SousCategorie,
+      Brand,
+      Produit,
+      QteDsStock,
+      Prix,
+      PrixR,
+      Reduction,
+      Couleur,
+      Taille,
+      Genre,
+      GroupAge,
+      Images,
+      DetailsP,
+      PrixLivraision,
+      livraisonestime,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).json({ message: "Produit updated succefully" });
+    }
+  );
+};
+const getProduitsbyBrand = (request, response) => {
+  const Brand = request.params.Brand;
+  pool.query(que.getproduitbybrand, [Brand], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
+const getProduitById = (request, response) => {
+  const id = parseInt(request.params.id);
+  pool.query(que.getproduitbyid, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
-    getProduits,
-    createProduit
-  };
+  getProduits,
+  createProduit,
+  updateProduit,
+  getProduitsbyBrand,
+  getProduitById,
+};

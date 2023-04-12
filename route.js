@@ -77,7 +77,11 @@ router.post("/AddParameter", cors(), parametreC.CreateParametre);
 router.get("/Parameter/:id", cors(), parametreC.getParameterById);
 router.put("/UpdateParametre/:id", cors(), parametreC.updateParameter);
 router.delete("/DeleteParameter/:id", cors(), parametreC.RemoveParameter);
+router.get("/parameter/:Categorie/:SousCategorie", cors(), parametreC.getParametyresbyCatSc);
 //Produits
 router.get("/Produits", cors(), produitC.getProduits);
 router.post("/AddProduits", cors(), produitC.createProduit);
+router.put("/UpdateProduit/:id", cors(), produitC.updateProduit);
+router.get("/Produit/:Brand", cors(), produitC.getProduitsbyBrand);
+router.get("/Product/:id", cors(), produitC.getProduitById);
 module.exports = router;
