@@ -7,6 +7,7 @@ const newsletter = require("./Newsletter/NewsletterC");
 const brandC = require("./Brand/BrandC");
 const parametreC = require("./ParametreProduit/ParametreProdC");
 const produitC = require ("./Produit/ProduitC");
+const panierC = require ("./Panier/PanierC");
 const multer = require("multer");
 const path = require("path");
 const app = express();
@@ -89,4 +90,10 @@ router.put("/UpdateProduit/:id", cors(), produitC.updateProduit);
 router.get("/Produit/:Brand", cors(), produitC.getProduitsbyBrand);
 router.get("/Product/:id", cors(), produitC.getProduitById);
 router.get("/ProductNbr", cors(), produitC.GetproduitNbr);
+//Panier
+router.get("/Panier/:Email/:UserName", cors(), panierC.GetPanier);
+router.post("/AddPanier", cors(), panierC.createPanier);
+router.put("/UpdatePanier/:id", cors(), panierC.updatePanier);
+router.get("/Panier/:id", cors(), panierC.getPanierById);
+router.delete("/DeleteAllpanier/:Email/:UserName", cors(), panierC.RemoveallPanier);
 module.exports = router;

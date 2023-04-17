@@ -28,7 +28,7 @@ const CreateParametre = (request, response) => {
           }
           response
             .status(201)
-            .json({ message: "Parameter created succefully" });
+            .json({ message: "Parameter created succefully" });                                                                   
         }
       );
     }
