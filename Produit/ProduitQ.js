@@ -6,11 +6,13 @@ const updateproduit =
 const getproduitbyid = 'SELECT * FROM public."Produits" WHERE id = $1';
 const removeProduit = 'DELETE FROM public."Produits" WHERE id = $1';
 const getproduitbybrand = 'SELECT * FROM public."Produits" WHERE "Brand" = $1';
+const NBRProduit = 'SELECT COUNT(*) FROM public."Produits"';
 module.exports = {
     getProduits,
     AddProduit,
     updateproduit,
     getproduitbyid,
     removeProduit,
-    getproduitbybrand
+    getproduitbybrand,
+    NBRProduit
   };

@@ -7,6 +7,7 @@ const updatebrand =
 const getbrandbyAccueil =
   'SELECT * FROM public."Brands" WHERE "AffichafeAccueil" = $1';
 const getbrandbyid = 'SELECT * FROM public."Brands" WHERE id = $1';
+const NBRBrand = 'SELECT COUNT(*) FROM public."Brands"';
 module.exports = {
   getbrands,
   Addbrand,
@@ -14,4 +15,5 @@ module.exports = {
   updatebrand,
   getbrandbyAccueil,
   getbrandbyid,
+  NBRBrand,
 };

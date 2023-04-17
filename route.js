@@ -32,8 +32,10 @@ router.post("/AddClient", cors(), clientsC.createClient);
 router.post("/AuthClient", cors(), clientsC.LoginAuth);
 router.put("/Updateclient/:id", cors(), clientsC.updateClient);
 router.get("/client/:id", cors(), clientsC.getClientById);
+router.get("/clientNbr", cors(), clientsC.GetClientNbr);
 //Categorie
 router.get("/Categories", cors(), categoriec.getCategories);
+router.get("/CategorieNbr", cors(), categoriec.GetcategorieNbr);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/Categories");
@@ -54,6 +56,7 @@ router.put("/UpdateCategorie/:id", cors(), categoriec.updateCategorie);
 //Newsletter
 router.post("/AddNewsletter", cors(), newsletter.AddNewsLetter);
 router.get("/Newsletters", cors(), newsletter.getNewsletter);
+router.get("/NewsletterNbr", cors(), newsletter.GetnewsNbr);
 //Brand
 router.get("/Brands", cors(), brandC.getBrands);
 router.post("/Addbrand", cors(), brandC.createBrand);
@@ -71,6 +74,7 @@ router.get("/BrandAcc1", cors(), brandC.getBrandAcc1);
 router.get("/BrandAcc2", cors(), brandC.getBrandAcc2);
 router.get("/BrandAcc3", cors(), brandC.getBrandAcc3);
 router.get("/brand/:id", cors(), brandC.getBrandById);
+router.get("/brandNbr", cors(), brandC.GetBrandNbr);
 //Parametres
 router.get("/Parametres", cors(), parametreC.GetParametre);
 router.post("/AddParameter", cors(), parametreC.CreateParametre);
@@ -84,4 +88,5 @@ router.post("/AddProduits", cors(), produitC.createProduit);
 router.put("/UpdateProduit/:id", cors(), produitC.updateProduit);
 router.get("/Produit/:Brand", cors(), produitC.getProduitsbyBrand);
 router.get("/Product/:id", cors(), produitC.getProduitById);
+router.get("/ProductNbr", cors(), produitC.GetproduitNbr);
 module.exports = router;

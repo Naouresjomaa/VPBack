@@ -159,6 +159,14 @@ const getClientById = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const GetClientNbr = (request, response) => {
+  pool.query(que.NBRClient,(error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
   getClients,
   createClient,
@@ -166,4 +174,5 @@ module.exports = {
   LoginAuth,
   updateClient,
   getClientById,
+  GetClientNbr
 };

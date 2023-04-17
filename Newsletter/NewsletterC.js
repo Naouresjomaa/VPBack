@@ -21,7 +21,16 @@ const getNewsletter = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const GetnewsNbr = (request, response) => {
+  pool.query(que.NBRNews,(error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
   AddNewsLetter,
   getNewsletter,
+  GetnewsNbr
 };

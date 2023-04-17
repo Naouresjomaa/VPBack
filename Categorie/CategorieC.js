@@ -32,7 +32,16 @@ const updateCategorie = (request, response) => {
     }
   );
 };
+const GetcategorieNbr = (request, response) => {
+  pool.query(que.NBRCategorie,(error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
   getCategories,
   updateCategorie,
+  GetcategorieNbr
 };

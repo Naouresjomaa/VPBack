@@ -126,10 +126,19 @@ const getProduitById = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const GetproduitNbr = (request, response) => {
+  pool.query(que.NBRProduit,(error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
   getProduits,
   createProduit,
   updateProduit,
   getProduitsbyBrand,
   getProduitById,
+  GetproduitNbr
 };

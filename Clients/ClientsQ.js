@@ -9,6 +9,7 @@ const checkEmail = 'SELECT * FROM public."Clients" WHERE "Email"=$1';
 const updateclient =
   'UPDATE public."Clients" SET "NomComplet" = $1, "UserName" = $2, "Genre" = $3, "Email" = $4, "Telephone" = $5, "Password" = $6, "Ville" = $7, "Adresse" = $8, "DateNaissance" = $9 WHERE id=$10';
 const getclientbyid = 'SELECT * FROM public."Clients" WHERE id = $1';
+const NBRClient = 'SELECT COUNT(*) FROM public."Clients"';
 module.exports = {
   getClients,
   AddClient,
@@ -17,4 +18,5 @@ module.exports = {
   checkEmail,
   updateclient,
   getclientbyid,
+  NBRClient
 };

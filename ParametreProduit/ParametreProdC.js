@@ -15,16 +15,24 @@ const GetParametre = (request, response) => {
 const CreateParametre = (request, response) => {
   const { Categorie, SousCategorie, Taille, Couleur, Genre, GroupeAge } =
     request.body;
-  pool.query(
-    que.Addparametre,
-    [Categorie, SousCategorie, Taille, Couleur, Genre, GroupeAge],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(201).json({ message: "Parameter created succefully" });
+  pool.query(que.getParameterbyCatSC, [Categorie,SousCategorie], (error, results) => {
+    if (results.rows.length) {
+      response.json({ message: "Parametre already exist !" });
+    } else {
+      pool.query(
+        que.Addparametre,
+        [Categorie, SousCategorie, Taille, Couleur, Genre, GroupeAge],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+          response
+            .status(201)
+            .json({ message: "Parameter created succefully" });
+        }
+      );
     }
-  );
+  });
 };
 const getParameterById = (request, response) => {
   const id = parseInt(request.params.id);
@@ -79,5 +87,5 @@ module.exports = {
   getParameterById,
   updateParameter,
   RemoveParameter,
-  getParametyresbyCatSc
+  getParametyresbyCatSc,
 };

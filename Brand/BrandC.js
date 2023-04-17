@@ -185,6 +185,14 @@ const getBrandById = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const GetBrandNbr = (request, response) => {
+  pool.query(que.NBRBrand,(error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 module.exports = {
   getBrands,
   createBrand,
@@ -202,4 +210,5 @@ module.exports = {
   getBrandAcc2,
   getBrandAcc3,
   getBrandById,
+  GetBrandNbr
 };
