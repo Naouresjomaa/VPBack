@@ -12,6 +12,14 @@ const getBrands = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const getBrandCat = (request, response) => {
+  pool.query(que.getbrandCat, (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results.rows);
+  });
+};
 const createBrand = (request, response) => {
   const {
     BrandName,
@@ -210,5 +218,6 @@ module.exports = {
   getBrandAcc2,
   getBrandAcc3,
   getBrandById,
-  GetBrandNbr
+  GetBrandNbr,
+  getBrandCat
 };

@@ -8,6 +8,7 @@ const getbrandbyAccueil =
   'SELECT * FROM public."Brands" WHERE "AffichafeAccueil" = $1';
 const getbrandbyid = 'SELECT * FROM public."Brands" WHERE id = $1';
 const NBRBrand = 'SELECT COUNT(*) FROM public."Brands"';
+const getbrandCat = 'SELECT "BrandName", "SousCategorie" FROM public."Brands" GROUP BY "BrandName", "SousCategorie";';
 module.exports = {
   getbrands,
   Addbrand,
@@ -16,4 +17,5 @@ module.exports = {
   getbrandbyAccueil,
   getbrandbyid,
   NBRBrand,
+  getbrandCat
 };

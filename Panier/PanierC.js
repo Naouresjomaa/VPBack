@@ -16,39 +16,17 @@ const GetPanier = (request, response) => {
 };
 const createPanier = (request, response) => {
   const {
-    idproduit,
-    Brand,
-    Email,
-    UserName,
     Produit,
-    Couleur,
-    Taille,
-    Genre,
-    GroupAge,
-    Images,
-    DetailsP,
-    prixunitaire,
-    quantite,
-    prixtotale,
+    ProdDetails,
+    PrixUnitaire,
+    Quantite,
+    PrixTotale,
+    UserName,
+    Email,
   } = request.body;
   pool.query(
     que.createPanier,
-    [
-      idproduit,
-      Brand,
-      Email,
-      UserName,
-      Produit,
-      Couleur,
-      Taille,
-      Genre,
-      GroupAge,
-      Images,
-      DetailsP,
-      prixunitaire,
-      quantite,
-      prixtotale,
-    ],
+    [Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email],
     (error, results) => {
       if (error) {
         throw error;
@@ -60,38 +38,24 @@ const createPanier = (request, response) => {
 const updatePanier = (request, response) => {
   const id = parseInt(request.params.id);
   const {
-    idproduit,
-    Brand,
-    Email,
-    UserName,
     Produit,
-    Couleur,
-    Taille,
-    Genre,
-    GroupAge,
-    Images,
-    DetailsP,
-    prixunitaire,
-    quantite,
-    prixtotale,
+    ProdDetails,
+    PrixUnitaire,
+    Quantite,
+    PrixTotale,
+    UserName,
+    Email,
   } = request.body;
   pool.query(
     que.UpdatePanier,
     [
-      idproduit,
-      Brand,
-      Email,
-      UserName,
       Produit,
-      Couleur,
-      Taille,
-      Genre,
-      GroupAge,
-      Images,
-      DetailsP,
-      prixunitaire,
-      quantite,
-      prixtotale,
+      ProdDetails,
+      PrixUnitaire,
+      Quantite,
+      PrixTotale,
+      UserName,
+      Email,
       id,
     ],
     (error, results) => {
@@ -121,10 +85,20 @@ const RemoveallPanier = (request, response) => {
     response.status(200).json("Panier empty");
   });
 };
+const RemovPanier = (request, response) => {
+  const id = parseInt(request.params.id);
+  pool.query(que.removepanier, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json("Panier deleted");
+  });
+};
 module.exports = {
   GetPanier,
   createPanier,
   updatePanier,
   getPanierById,
-  RemoveallPanier
+  RemoveallPanier,
+  RemovPanier
 };

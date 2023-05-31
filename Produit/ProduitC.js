@@ -110,7 +110,8 @@ const updateProduit = (request, response) => {
 };
 const getProduitsbyBrand = (request, response) => {
   const Brand = request.params.Brand;
-  pool.query(que.getproduitbybrand, [Brand], (error, results) => {
+  const SousCategorie = request.params.SousCategorie;
+  pool.query(que.getproduitbybrand, [Brand,SousCategorie], (error, results) => {
     if (error) {
       throw error;
     }
@@ -134,11 +135,21 @@ const GetproduitNbr = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+const RemoveProduit = (request, response) => {
+  const id = parseInt(request.params.id);
+  pool.query(que.removeProduit, [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json("Product deleted");
+  });
+};
 module.exports = {
   getProduits,
   createProduit,
   updateProduit,
   getProduitsbyBrand,
   getProduitById,
-  GetproduitNbr
+  GetproduitNbr,
+  RemoveProduit
 };

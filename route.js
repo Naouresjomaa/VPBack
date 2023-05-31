@@ -6,8 +6,10 @@ const categoriec = require("./Categorie/CategorieC");
 const newsletter = require("./Newsletter/NewsletterC");
 const brandC = require("./Brand/BrandC");
 const parametreC = require("./ParametreProduit/ParametreProdC");
-const produitC = require ("./Produit/ProduitC");
-const panierC = require ("./Panier/PanierC");
+const produitC = require("./Produit/ProduitC");
+const panierC = require("./Panier/PanierC");
+const livraisonC = require("./Livraison/LivraisonC");
+const CommandeC = require("./Commande/CommandeC");
 const multer = require("multer");
 const path = require("path");
 const app = express();
@@ -76,24 +78,56 @@ router.get("/BrandAcc2", cors(), brandC.getBrandAcc2);
 router.get("/BrandAcc3", cors(), brandC.getBrandAcc3);
 router.get("/brand/:id", cors(), brandC.getBrandById);
 router.get("/brandNbr", cors(), brandC.GetBrandNbr);
+router.get("/brandCat", cors(), brandC.getBrandCat);
 //Parametres
 router.get("/Parametres", cors(), parametreC.GetParametre);
 router.post("/AddParameter", cors(), parametreC.CreateParametre);
 router.get("/Parameter/:id", cors(), parametreC.getParameterById);
 router.put("/UpdateParametre/:id", cors(), parametreC.updateParameter);
 router.delete("/DeleteParameter/:id", cors(), parametreC.RemoveParameter);
-router.get("/parameter/:Categorie/:SousCategorie", cors(), parametreC.getParametyresbyCatSc);
+router.get(
+  "/parameter/:Categorie/:SousCategorie",
+  cors(),
+  parametreC.getParametyresbyCatSc
+);
 //Produits
 router.get("/Produits", cors(), produitC.getProduits);
 router.post("/AddProduits", cors(), produitC.createProduit);
 router.put("/UpdateProduit/:id", cors(), produitC.updateProduit);
-router.get("/Produit/:Brand", cors(), produitC.getProduitsbyBrand);
+router.get(
+  "/Produit/:Brand/:SousCategorie",
+  cors(),
+  produitC.getProduitsbyBrand
+);
 router.get("/Product/:id", cors(), produitC.getProduitById);
 router.get("/ProductNbr", cors(), produitC.GetproduitNbr);
+router.delete("/DeleteProduit/:id", cors(), produitC.RemoveProduit);
 //Panier
 router.get("/Panier/:Email/:UserName", cors(), panierC.GetPanier);
 router.post("/AddPanier", cors(), panierC.createPanier);
 router.put("/UpdatePanier/:id", cors(), panierC.updatePanier);
 router.get("/Panier/:id", cors(), panierC.getPanierById);
-router.delete("/DeleteAllpanier/:Email/:UserName", cors(), panierC.RemoveallPanier);
+router.delete(
+  "/DeleteAllpanier/:Email/:UserName",
+  cors(),
+  panierC.RemoveallPanier
+);
+router.delete("/Deletepanier/:id", cors(), panierC.RemovPanier);
+//Livraison
+router.get("/Livraisons", cors(), livraisonC.getLivraison);
+router.get("/Livraison/:Region", cors(), livraisonC.GetLivraisonByRegion);
+router.post("/Createlivraison", cors(), livraisonC.createLivraison);
+router.put("/UpdateLivraison/:id", cors(), livraisonC.updateLivraison);
+router.delete("/DeleteLivraison/:id", cors(), livraisonC.Removelivraison);
+//Commande
+router.get("/Commandes", cors(), CommandeC.getCommandes);
+router.get("/CommandeId/:id", cors(), CommandeC.getCommandeById);
+router.get(
+  "/Commande/:Email/:UserName",
+  cors(),
+  CommandeC.GetCommandeByUserNameEmail
+);
+router.post("/CreateCommande", cors(), CommandeC.createCommandes);
+router.put("/UpdateCommande/:id", cors(), CommandeC.updateCommande);
+router.get("/LastInvoice/:Email/:UserName", cors(), CommandeC.LastInvoice);
 module.exports = router;

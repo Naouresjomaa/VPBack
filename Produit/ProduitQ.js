@@ -5,7 +5,7 @@ const updateproduit =
   'UPDATE public."Produits" SET "Categorie" = $1, "SousCategorie" = $2, "Brand" = $3, "Produit" = $4, "QteDsStock" = $5, "Prix" = $6, "PrixR" = $7, "Reduction" = $8, "Couleur" = $9, "Taille" = $10, "Genre" = $11, "GroupAge" = $12, "Images" = $13, "DetailsP" = $14, "PrixLivraision" = $15, "livraisonestime" = $16 WHERE id = $17';
 const getproduitbyid = 'SELECT * FROM public."Produits" WHERE id = $1';
 const removeProduit = 'DELETE FROM public."Produits" WHERE id = $1';
-const getproduitbybrand = 'SELECT * FROM public."Produits" WHERE "Brand" = $1';
+const getproduitbybrand = 'SELECT * FROM public."Produits" WHERE "Brand" = $1 AND "SousCategorie" = $2';
 const NBRProduit = 'SELECT COUNT(*) FROM public."Produits"';
 module.exports = {
     getProduits,
