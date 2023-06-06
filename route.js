@@ -120,7 +120,7 @@ router.post("/Createlivraison", cors(), livraisonC.createLivraison);
 router.put("/UpdateLivraison/:id", cors(), livraisonC.updateLivraison);
 router.delete("/DeleteLivraison/:id", cors(), livraisonC.Removelivraison);
 //Commande
-router.get("/Commandes", cors(), CommandeC.getCommandes);
+router.get("/CommandeEncours", cors(), CommandeC.getCommandesEncours);
 router.get("/CommandeId/:id", cors(), CommandeC.getCommandeById);
 router.get(
   "/Commande/:Email/:UserName",

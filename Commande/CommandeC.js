@@ -4,8 +4,9 @@ const que = require("./CommandeQ");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const getCommandes = (request, response) => {
-  pool.query(que.getCommandes, (error, results) => {
+const getCommandesEncours = (request, response) => {
+  const Statut = "Commandée";
+  pool.query(que.getCommandesEncours,[Statut],(error, results) => {
     if (error) {
       throw error;
     }
@@ -31,6 +32,7 @@ const createCommandes = (request, response) => {
     Message,
     CodePostal,
     TypePaiement,
+    Statut,
   } = request.body;
   pool.query(
     que.AddCommande,
@@ -52,6 +54,7 @@ const createCommandes = (request, response) => {
       Message,
       CodePostal,
       TypePaiement,
+      Statut,
     ],
     (error, results) => {
       if (error) {
@@ -83,6 +86,7 @@ const updateCommande = (request, response) => {
     Message,
     CodePostal,
     TypePaiement,
+    Statut,
   } = request.body;
   pool.query(
     que.UpdateCommande,
@@ -104,6 +108,7 @@ const updateCommande = (request, response) => {
       Message,
       CodePostal,
       TypePaiement,
+      Statut,
       id,
     ],
     (error, results) => {
@@ -126,9 +131,10 @@ const getCommandeById = (request, response) => {
 const GetCommandeByUserNameEmail = (request, response) => {
   const Email = request.params.Email;
   const UserName = request.params.UserName;
+  const Statut = "Pas Commandée";
   pool.query(
     que.getCommadeByEmailUserName,
-    [Email, UserName],
+    [Email, UserName, Statut],
     (error, results) => {
       if (error) {
         throw error;
@@ -148,7 +154,7 @@ const LastInvoice = (request, response) => {
   });
 };
 module.exports = {
-  getCommandes,
+  getCommandesEncours,
   createCommandes,
   updateCommande,
   getCommandeById,
