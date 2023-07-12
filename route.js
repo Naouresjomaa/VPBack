@@ -102,7 +102,7 @@ router.get(
 router.get("/Product/:id", cors(), produitC.getProduitById);
 router.get("/ProductNbr", cors(), produitC.GetproduitNbr);
 router.delete("/DeleteProduit/:id", cors(), produitC.RemoveProduit);
-//Panier
+//Paniers
 router.get("/Panier/:Email/:UserName", cors(), panierC.GetPanier);
 router.post("/AddPanier", cors(), panierC.createPanier);
 router.put("/UpdatePanier/:id", cors(), panierC.updatePanier);
