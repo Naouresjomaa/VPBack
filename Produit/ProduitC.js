@@ -18,7 +18,7 @@ const getProduits = (request, response) => {
 
 const createProduit = (request, response) => {
   const {
-    Categorie,
+   
     SousCategorie,
     Brand,
     Produit,
@@ -40,7 +40,7 @@ const createProduit = (request, response) => {
     pool.query(
       que.AddProduit,
       [
-        Categorie,
+      
         SousCategorie,
         Brand,
         Produit,
@@ -75,7 +75,7 @@ const createProduit = (request, response) => {
 const updateProduit = (request, response) => {
   const id = parseInt(request.params.id);
   const {
-    Categorie,
+
     SousCategorie,
     Brand,
     Produit,
@@ -99,7 +99,7 @@ const updateProduit = (request, response) => {
     pool.query(
       que.updateproduit,
       [
-        Categorie,
+    
         SousCategorie,
         Brand,
         Produit,

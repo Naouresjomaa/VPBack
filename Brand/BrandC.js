@@ -58,7 +58,7 @@ const createBrand = (request, response) => {
   const {
     BrandName,
     Categorie,
-    SousCategorie,
+
     DateAjout,
     DateExpiration,
     AffichafeAccueil,
@@ -70,7 +70,7 @@ const createBrand = (request, response) => {
       [
         BrandName,
         Categorie,
-        SousCategorie,
+     
         DateAjout,
         DateExpiration,
         AffichafeAccueil,

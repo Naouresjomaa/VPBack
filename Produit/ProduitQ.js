@@ -1,8 +1,8 @@
 const getProduits = 'SELECT * FROM public."Produits" ORDER BY id ASC ';
 const AddProduit =
-  'INSERT INTO public."Produits" ("Categorie", "SousCategorie", "Brand", "Produit", "QteDsStock", "Prix", "PrixR", "Reduction", "Couleur", "Taille", "Genre", "GroupAge", "Images", "DetailsP", "PrixLivraision", "livraisonestime" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)';
+  'INSERT INTO public."Produits" ( "SousCategorie", "Brand", "Produit", "QteDsStock", "Prix", "PrixR", "Reduction", "Couleur", "Taille", "Genre", "GroupAge", "Images", "DetailsP", "PrixLivraision", "livraisonestime" ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)';
 const updateproduit =
-  'UPDATE public."Produits" SET "Categorie" = $1, "SousCategorie" = $2, "Brand" = $3, "Produit" = $4, "QteDsStock" = $5, "Prix" = $6, "PrixR" = $7, "Reduction" = $8, "Couleur" = $9, "Taille" = $10, "Genre" = $11, "GroupAge" = $12, "Images" = $13, "DetailsP" = $14, "PrixLivraision" = $15, "livraisonestime" = $16 WHERE id = $17';
+  'UPDATE public."Produits" SET "SousCategorie" = $1, "Brand" = $2, "Produit" = $3, "QteDsStock" = $4, "Prix" = $5, "PrixR" = $6, "Reduction" = $7, "Couleur" = $8, "Taille" = $9, "Genre" = $10, "GroupAge" = $11, "Images" = $12, "DetailsP" = $13, "PrixLivraision" = $14, "livraisonestime" = $15  WHERE id = $16';
 const getproduitbyid = 'SELECT * FROM public."Produits" WHERE id = $1';
 const removeProduit = 'DELETE FROM public."Produits" WHERE id = $1';
 const getproduitbybrand = 'SELECT * FROM public."Produits" WHERE "Brand" = $1 AND "SousCategorie" = $2';
