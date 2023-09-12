@@ -34,6 +34,7 @@ const createProduit = (request, response) => {
     DetailsP,
     PrixLivraision,
     livraisonestime,
+    idbrand,
   } = request.body;
 
   try {
@@ -56,6 +57,7 @@ const createProduit = (request, response) => {
         DetailsP,
         PrixLivraision,
         livraisonestime,
+        idbrand,
       ],
       (error, results) => {
         if (error) {
@@ -91,6 +93,7 @@ const updateProduit = (request, response) => {
     DetailsP,
     PrixLivraision,
     livraisonestime,
+    idbrand,
   } = request.body;
 
   try {
@@ -116,6 +119,7 @@ const updateProduit = (request, response) => {
         PrixLivraision,
         livraisonestime,
         id,
+        idbrand,
       ],
       (error, results) => {
         if (error) {
@@ -133,11 +137,11 @@ const updateProduit = (request, response) => {
 
 
 const getProduitsbyBrand = (request, response) => {
-  const Brand = request.params.Brand;
-  const SousCategorie = request.params.SousCategorie;
-  
+
+
+  const id = parseInt(request.params.id);  
   try {
-    pool.query(que.getproduitbybrand, [Brand, SousCategorie], (error, results) => {
+    pool.query(que.getproduitbybrand, [id], (error, results) => {
       if (error) {
         console.error("Erreur lors de la requête à la base de données:", error.message);
         return response.status(500).json({ message: "Erreur interne du serveur" });

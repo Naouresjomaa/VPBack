@@ -100,6 +100,7 @@ router.get(
   produitC.getProduitsbyBrand
 );
 router.get("/Product/:id", cors(), produitC.getProduitById);
+router.get("/Produit/:id", cors(), produitC.getProduitsbyBrand);
 router.get("/ProductNbr", cors(), produitC.GetproduitNbr);
 router.delete("/DeleteProduit/:id", cors(), produitC.RemoveProduit);
 //Paniers
