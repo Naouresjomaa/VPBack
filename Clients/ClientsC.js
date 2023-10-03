@@ -23,6 +23,15 @@ const getClients = (request, response) => {
 };
 
 
+const genererChaineAleatoire=()=> {
+  const caracteres = '0123456789';
+  let resultat = '';
+  for (let i = 0; i < 7; i++) {
+    const indexAleatoire = Math.floor(Math.random() * caracteres.length);
+    resultat += caracteres.charAt(indexAleatoire);
+  }
+  return resultat
+}
 
 const createClient = (request, response) => {
   try {
@@ -36,58 +45,120 @@ const createClient = (request, response) => {
       Ville,
       Adresse,
       DateNaissance,
+      solde,
+      parainageUser
     } = request.body;
+    let parrainage = genererChaineAleatoire();
+    console.log(parrainage);
 
-    // Vérification de l'existence de l'adresse e-mail
-    pool.query(que.checkEmailexistence, [Email], (error, emailResults) => {
+    // Vérification de l'existence du nom d'utilisateur
+    pool.query(que.checkUserNameexistance, [UserName], (error, usernameResults) => {
       if (error) {
         console.error("Erreur lors de la requête à la base de données:", error.message);
         return response.status(500).json({ message: "Erreur interne du serveur" });
       }
 
-      if (emailResults.rows.length) {
-        return response.json({ message: "Email already exists!" });
+      if (usernameResults.rows.length) {
+        return response.json({ message: 'UserName already exist !' });
       }
 
-      // Vérification de l'existence du nom d'utilisateur
-      pool.query(que.checkUserNameexistance, [UserName], (error, usernameResults) => {
-        if (error) {
-          console.error("Erreur lors de la requête à la base de données:", error.message);
-          return response.status(500).json({ message: "Erreur interne du serveur" });
-        }
-
-        if (usernameResults.rows.length) {
-          return response.json({ message: "UserName already exists!" });
-        }
-
-        // Ajout du client si l'adresse e-mail et le nom d'utilisateur sont uniques
-        pool.query(
-          que.AddClient,
-          [
-            NomComplet,
-            UserName,
-            Genre,
-            Email,
-            Telephone,
-            Password,
-            Ville,
-            Adresse,
-            DateNaissance,
-          ],
-          (error, addClientResults) => {
+      
+      pool.query(
+        que.AddClient,
+        [
+          NomComplet,
+          UserName,
+          Genre,
+          Email,
+          Telephone,
+          Password,
+          Ville,
+          Adresse,
+          DateNaissance,
+          parrainage,
+          solde
+        ],
+        (error, addClientResults) => {
+          if (error) {
+            console.error("Erreur lors de la requête à la base de données:", error.message);
+            return response.status(500).json({ message: "Erreur interne du serveur" });
+          }
+          const user = addClientResults.rows[0];
+          console.log('User Added:', user);
+          if(parainageUser && parainageUser.length>0){
+            updateClientParrainage(parainageUser)
+          }
+          jwt.sign(user, secretKey, (error, token) => {
             if (error) {
-              console.error("Erreur lors de la requête à la base de données:", error.message);
+              console.error("Erreur lors de la génération du jeton JWT:", error.message);
               return response.status(500).json({ message: "Erreur interne du serveur" });
             }
 
-            response.status(200).json({ message: "Client added successfully" });
-          }
-        );
-      });
+            response
+              .status(200)
+              .json({ Token: token, user, message: "Client added successfully" });
+          })
+        }
+      );
     });
   } catch (error) {
-    console.error("Erreur lors de la requête à la base de données:", error.message);
-    return response.status(500).json({ message: "Erreur interne du serveur" });
+    console.error(error);
+    response.status(500).json({ message: "Erreur inattendue" });
+  }
+};
+const createClientAuth = (NomComplet, callback) => {
+  console.log('NomComplet',NomComplet)
+  try {
+    let Username = NomComplet;
+    let Email = "";
+    let Password = "";
+    let parrainage = genererChaineAleatoire();
+    pool.query(que.checkUserNameexistance, [Username], (error, usernameResults) => {
+      if (error) {
+        console.log(error);
+        return callback(error);
+      }
+
+      if (usernameResults.rows.length) {
+        jwt.sign(usernameResults.rows[0], secretKey, (error, token) => {
+          if (error) {
+            console.log(error);
+            return callback(error);
+          }
+
+          return callback(null, token);
+        });
+      } else {
+        pool.query(
+          que.AddClientAuth,
+          [
+            Username,
+            parrainage,
+            Email,
+            Password
+          ],
+          (error, addClientResults) => {
+            if (error) {
+              console.log(error);
+              return callback(error);
+            }
+            const user = addClientResults.rows[0];
+
+            jwt.sign(user, secretKey, (error, token) => {
+              if (error) {
+                console.log(error);
+                return callback(error);
+              }
+
+              return callback(null, token);
+            });
+          }
+        );
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return callback(error);
   }
 };
 
@@ -215,7 +286,36 @@ const updateClient = (request, response) => {
   }
 };
 
+const updateClientParrainage = (parrainageCode) => {
+  try {
+    
+   const parrainage =10;
+    pool.query(que.getclientbyParrainage, [parrainageCode], (error, results) => {
+      if (error) {
+        console.error("Erreur lors de la requête à la base de données:", error.message);
+      }
+      const user = results.rows[0];
+      let solde = user.solde ? +user.solde : 0; // convertir user.solde en nombre
+      solde += parrainage; 
+      pool.query(
+        que.updateclientParrainage,
+        [
+          solde,
+          parrainageCode
+        ],
+        (error, results) => {
+          if (error) {
+            console.error("Erreur lors de la requête à la base de données:", error.message);
+          }
 
+          console.error("success");
+        }
+      );
+    });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du client:", error.message);
+  }
+};
 
 
 const getClientById = (request, response) => {
@@ -223,6 +323,22 @@ const getClientById = (request, response) => {
     const id = parseInt(request.params.id);
     
     pool.query(que.getclientbyid, [id], (error, results) => {
+      if (error) {
+        console.error("Error querying the database:", error.message);
+        return response.status(500).json({ message: "Internal server error" });
+      }
+      response.status(200).json(results.rows);
+    });
+  } catch (error) {
+    console.error("Error in getClientById:", error.message);
+    return response.status(500).json({ message: "Internal server error" });
+  }
+};
+const getClientByParrainage = (request, response) => {
+  try {
+    const id = request.params.id;
+    
+    pool.query(que.getclientbyParrainage, [id], (error, results) => {
       if (error) {
         console.error("Error querying the database:", error.message);
         return response.status(500).json({ message: "Internal server error" });
@@ -262,5 +378,8 @@ module.exports = {
   LoginAuth,
   updateClient,
   getClientById,
-  GetClientNbr
+  GetClientNbr,
+  updateClientParrainage,
+  getClientByParrainage,
+  createClientAuth
 };

@@ -28,12 +28,13 @@ const createPanier = (request, response) => {
     PrixTotale,
     UserName,
     Email,
+    taille
   } = request.body;
   
   try {
     pool.query(
       que.createPanier,
-      [Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email],
+      [Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email,taille],
       (error, results) => {
         if (error) {
           console.error("Erreur lors de la requête à la base de données:", error.message);
@@ -52,6 +53,7 @@ const createPanier = (request, response) => {
 
 const updatePanier = (request, response) => {
   const id = parseInt(request.params.id);
+  console.log(id)
   const {
     Produit,
     ProdDetails,
@@ -60,10 +62,11 @@ const updatePanier = (request, response) => {
     PrixTotale,
     UserName,
     Email,
+    taille
   } = request.body;
-
+  console.log(Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email,taille, id)
   // Vérification préalable de l'existence du panier
-  pool.query(que.getPanierById, [id], (error, results) => {
+  pool.query(que.GetPanierbyid, [id], (error, results) => {
     if (error) {
       console.error("Erreur lors de la requête à la base de données:", error.message);
       return response.status(500).json({ message: "Erreur interne du serveur" });
@@ -74,11 +77,11 @@ const updatePanier = (request, response) => {
     if (noPanierFound) {
       return response.status(404).json({ message: "Aucun panier trouvé dans la base de données" });
     }
-
+console.log(Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email,taille, id)
     // Le panier existe, nous pouvons procéder à la mise à jour
     pool.query(
       que.UpdatePanier,
-      [Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email, id],
+      [Produit, ProdDetails, PrixUnitaire, Quantite, PrixTotale, UserName, Email,taille, id],
       (error, results) => {
         if (error) {
           console.error("Erreur lors de la requête à la base de données:", error.message);

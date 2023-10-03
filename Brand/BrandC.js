@@ -55,14 +55,18 @@ const getBrandCat = (request, response) => {
 
 //Crée une nouvelle marque 
 const createBrand = (request, response) => {
-  const {
-    BrandName,
-    Categorie,
+  let Image=''
+  if(request.file){
+     Image = request.file.filename;
+     console.log('imaaaaaage',Image)
+  }
+  const BrandName =request.body.BrandName;
+  const Categorie=request.body.Categorie;
+  const SousCategorie=request.body.SousCategorie;
+  const DateAjout=request.body.DateAjout;
+  const DateExpiration=request.body.DateExpiration;
+  const AffichafeAccueil=request.body.AffichafeAccueil;
 
-    DateAjout,
-    DateExpiration,
-    AffichafeAccueil,
-  } = request.body;
 
   try {
     pool.query(
@@ -70,10 +74,11 @@ const createBrand = (request, response) => {
       [
         BrandName,
         Categorie,
-     
+        SousCategorie,
         DateAjout,
         DateExpiration,
         AffichafeAccueil,
+        Image
       ],
       (error, results) => {
         if (error) {
